@@ -25,25 +25,7 @@ func GetStation(c *gin.Context) {
 	var station StationResource
 	id := c.Param("station_id")
 	err := DB.QueryRow("select ID, NAME, CAST(OPENING_TIME as CHAR), CAST(CLOSING_TIME as CHAR) from station where id=?", id).
-		Scan(&station.ID, &station.OpeningTime, &station.ClosingTime)
-
-	if err != nil {
-		log.Println(err)
-		c.JSON(600, gin.H{
-			"error": err.Error(),
-		})
-	} else {
-		c.JSON(200, gin.H{
-			"results": station,
-		})
-	}
-}
-
-// GetStation returns the station details
-func GetStations(c *gin.Context) {
-	var station StationResource
-	err := DB.QueryRow("select * from station").
-		Scan(&station.ID, &station.OpeningTime, &station.ClosingTime)
+		Scan(&station.ID, &station.Name, &station.OpeningTime, &station.ClosingTime)
 
 	if err != nil {
 		log.Println(err)
